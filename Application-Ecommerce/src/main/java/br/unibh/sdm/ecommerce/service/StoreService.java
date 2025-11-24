@@ -3,6 +3,7 @@ package br.unibh.sdm.ecommerce.service;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -44,7 +45,6 @@ public class StoreService {
         Store newItem = new Store(category, description, item, price, quantity);
         return storeRepo.save(newItem);
     }
-
     /**
      * Find a store item by its ID
      * @param id The ID of the item to find
@@ -52,8 +52,10 @@ public class StoreService {
      */
     public Optional<Store> findById(String id) {
         logger.info("Buscando item por ID: {}", id);
+        Objects.requireNonNull(id, "id must not be null");
         return storeRepo.findById(id);
     }
+    
 
     /**
      * Update an existing store item by ID. Only fields present in the provided
@@ -63,6 +65,8 @@ public class StoreService {
      * @return Optional containing the updated item if it existed, empty otherwise
      */
     public Optional<Store> updateItem(String id, Store updated) {
+        Objects.requireNonNull(id, "id must not be null");
+        Objects.requireNonNull(updated, "updated must not be null");
         logger.info("Atualizando item com ID: {}", id);
         Optional<Store> existing = storeRepo.findById(id);
         if (!existing.isPresent()) {
@@ -94,6 +98,7 @@ public class StoreService {
      */
     public void deleteById(String id) {
         logger.info("Deletando item com ID: {}", id);
+        Objects.requireNonNull(id, "id must not be null");
         storeRepo.deleteById(id);
     }
 
